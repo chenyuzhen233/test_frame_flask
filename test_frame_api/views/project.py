@@ -1,46 +1,37 @@
 from test_frame_api import db, app
-from models import User, Token
+from models import Project, Token
 from response import result_code
 from flask import jsonify, abort, request
 
 import datetime
 
 
-@app.route('/')
-def hello():
-    response = {
-        "code":00000,
-        "data":"hello,friend!",
-        "msg":result_code[00000]
-    }
-    return jsonify(response)
-
-@app.route('/user/selectUserById', methods=['POST'])
-def selectUserById():
-    user = User.query.filter_by(id=request.form.get('id', 0)).first()
-    if user:
+@app.route('/project/selectProjectById', methods=['POST'])
+def selectProjectById():
+    project = Project.query.filter_by(id=request.form.get('id', 0)).first()
+    if project:
         response = {
             "code": 00000,
-            "data": user.__str__(),
+            "data": project.__str__(),
             "msg": result_code[00000]
         }
     else:
         response = {
-            "code": 10001,
+            "code": 30001,
             "data": None,
             "msg": result_code[10001]
         }
     return jsonify(response)
 
-@app.route('/user/selectAll', methods=['POST'])
+@app.route('/project/selectAll', methods=['POST'])
 def selectAll():
     token = Token.query.filter_by(token=request.form['token']).first()
     if token:
         if token.expire_time > datetime.datetime.now():
-            users = [u.__str__() for u in User.query.all()]
+            projects = [p.__str__() for u in Project.query.all()]
             response = {
                 "code":00000,
-                "data":users,
+                "data":projects,
                 "msg":result_code[00000]
             }
         else:
@@ -57,31 +48,31 @@ def selectAll():
         }
     return jsonify(response)
 
-@app.route('/user/insertUser', methods=['POST'])
+@app.route('/project/insertProject', methods=['POST'])
 def insertUser():
-    user = User(name=request.form.get('name', None),
-                password=request.form.get('password', None))
+    project = Project(name=request.form.get('name', None),
+                      remarks=request.form.get('remarks', None))
     try:
-        db.session.add(user)
+        db.session.add(project)
         db.session.commit()
         response = {
             "code": 00000,
-            "data": user.__str__(),
+            "data": project.__str__(),
             "msg": result_code[00000]
         }
     except:
         response = {
-            "code": 10002,
+            "code": 30002,
             "data": None,
-            "msg": result_code[10002]
+            "msg": result_code[30002]
         }
     return jsonify(response)
 
-@app.route('/user/deleteUserById', methods=['POST'])
+@app.route('/project/deleteProjectById', methods=['POST'])
 def deleteUserById():
-    user = User.query.filter_by(id=request.form.get('id', 0)).first()
+    project = Project.query.filter_by(id=request.form.get('id', 0)).first()
     try:
-        db.session.delete(user)
+        db.session.delete(project)
         db.session.commit()
         response = {
             "code": 00000,
@@ -90,12 +81,8 @@ def deleteUserById():
         }
     except:
         response = {
-            "code": 10003,
+            "code": 30003,
             "data": None,
-            "msg": result_code[10003]
+            "msg": result_code[30003]
         }
     return jsonify(response)
-
-@app.errorhandler(404)
-def not_found(error):
-    return jsonify({'error': 'Not found'}), 404

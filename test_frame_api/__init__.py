@@ -7,5 +7,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db.init_app(app)
 
+
 from views import user
 from views import testcase
