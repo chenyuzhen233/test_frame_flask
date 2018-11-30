@@ -6,7 +6,7 @@ from flask import jsonify, abort, request
 import datetime
 
 
-@app.route('/module/selectInterfaceById', methods=['POST'])
+@app.route('/interface/selectInterfaceById', methods=['POST'])
 def selectInterfaceById():
     interface = Interface.query.filter_by(id=request.form.get('id', 0)).first()
     if interface:
@@ -17,13 +17,13 @@ def selectInterfaceById():
         }
     else:
         response = {
-            "code": 40001,
+            "code": 50001,
             "data": None,
-            "msg": result_code[40001]
+            "msg": result_code[50001]
         }
     return jsonify(response)
 
-@app.route('/module/selectAllInterface', methods=['POST'])
+@app.route('/interface/selectAllInterface', methods=['POST'])
 def selectAllInterface():
     token = Token.query.filter_by(token=request.form.get('token',None)).first()
     if token:
@@ -48,11 +48,11 @@ def selectAllInterface():
         }
     return jsonify(response)
 
-@app.route('/module/insertInterface', methods=['POST'])
+@app.route('/interface/insertInterface', methods=['POST'])
 def insertInterface():
     interface = Interface(name=request.form.get('name', None),
-                       module_id=request.form.get('module_id', None),
-                       remarks=request.form.get('remarks', None))
+                          module_id=request.form.get('module_id', None),
+                          remarks=request.form.get('remarks', None))
     try:
         if not interface.name:
             raise BaseException
@@ -65,13 +65,13 @@ def insertInterface():
             }
     except:
         response = {
-            "code": 40002,
+            "code": 50002,
             "data": None,
-            "msg": result_code[40002]
+            "msg": result_code[50002]
             }
     return jsonify(response)
 
-@app.route('/module/deleteInterfaceById', methods=['POST'])
+@app.route('/interface/deleteInterfaceById', methods=['POST'])
 def deleteInterfaceById():
     interface = Interface.query.filter_by(id=request.form.get('id', None)).first()
     try:
@@ -84,8 +84,8 @@ def deleteInterfaceById():
         }
     except:
         response = {
-            "code": 40003,
+            "code": 50003,
             "data": None,
-            "msg": result_code[40003]
+            "msg": result_code[50003]
         }
     return jsonify(response)
