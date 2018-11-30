@@ -1,14 +1,14 @@
 from test_frame_api import db, app
-from models import Project, Token
+from models import Module, Token
 from response import result_code
 from flask import jsonify, abort, request
 
 import datetime
 
 
-@app.route('/project/selectProjectById', methods=['POST'])
-def selectProjectById():
-    project = Project.query.filter_by(id=request.form.get('id', 0)).first()
+@app.route('/module/selectModuleById', methods=['POST'])
+def selectModuleById():
+    project = Module.query.filter_by(id=request.form.get('id', 0)).first()
     if project:
         response = {
             "code": 00000,
@@ -17,21 +17,21 @@ def selectProjectById():
         }
     else:
         response = {
-            "code": 30001,
+            "code": 40001,
             "data": None,
-            "msg": result_code[30001]
+            "msg": result_code[40001]
         }
     return jsonify(response)
 
-@app.route('/project/selectAllProject', methods=['POST'])
-def selectAllProject():
+@app.route('/module/selectAllModule', methods=['POST'])
+def selectAllModule():
     token = Token.query.filter_by(token=request.form.get('token',None)).first()
     if token:
         if token.expire_time > datetime.datetime.now():
-            projects = [p.__str__() for p in Project.query.all()]
+            module = [m.__str__() for m in Module.query.all()]
             response = {
                 "code":00000,
-                "data":projects,
+                "data":module,
                 "msg":result_code[00000]
             }
         else:
@@ -48,33 +48,34 @@ def selectAllProject():
         }
     return jsonify(response)
 
-@app.route('/project/insertProject', methods=['POST'])
-def insertProject():
-    project = Project(name=request.form.get('name', None),
-                      remarks=request.form.get('remarks', None))
+@app.route('/module/insertModule', methods=['POST'])
+def insertModule():
+    module = Module(name=request.form.get('name', None),
+                    project_id=request.form.get('project_id', None),
+                    remarks=request.form.get('remarks', None))
     try:
-        if not project.name:
+        if not module.name:
             raise BaseException
-        db.session.add(project)
+        db.session.add(module)
         db.session.commit()
         response = {
             "code": 00000,
-            "data": project.__str__(),
+            "data": module.__str__(),
             "msg": result_code[00000]
-        }
+            }
     except:
         response = {
-            "code": 30002,
+            "code": 40002,
             "data": None,
-            "msg": result_code[30002]
-        }
+            "msg": result_code[40002]
+            }
     return jsonify(response)
 
-@app.route('/project/deleteProjectById', methods=['POST'])
-def deleteProjectById():
-    project = Project.query.filter_by(id=request.form.get('id', None)).first()
+@app.route('/module/deleteModuleById', methods=['POST'])
+def deleteModuleById():
+    module = Module.query.filter_by(id=request.form.get('id', None)).first()
     try:
-        db.session.delete(project)
+        db.session.delete(module)
         db.session.commit()
         response = {
             "code": 00000,
@@ -83,8 +84,8 @@ def deleteProjectById():
         }
     except:
         response = {
-            "code": 30003,
+            "code": 40003,
             "data": None,
-            "msg": result_code[30003]
+            "msg": result_code[40003]
         }
     return jsonify(response)

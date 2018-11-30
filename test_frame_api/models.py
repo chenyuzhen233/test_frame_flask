@@ -49,6 +49,7 @@ class Project(db.Model):
 
     def __str__(self):
         response = {
+            "id":self.id,
             "name":self.name,
             "remarks":self.remarks,
             "create_time":self.create_time
@@ -61,17 +62,20 @@ class Module(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    project = db.Column(db.Integer, db.ForeignKey('project.id'), )
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
+    project = db.relationship("Project", backref="module_of_project")
+
     remarks = db.Column(db.String(255), nullable=True)
     create_time = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, name, project, remarks=None):
+    def __init__(self, name, project_id, remarks=None):
         self.name = name
-        self.project = project
+        self.project_id = project_id
         self.remarks = remarks
 
     def __str__(self):
         response = {
+            "id": self.id,
             "name": self.name,
             "project": self.project.__str__(),
             "remarks": self.remarks,
@@ -84,17 +88,19 @@ class Interface(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    module = db.Column(db.Integer, db.ForeignKey('module.id'), )
+    module_id = db.Column(db.Integer, db.ForeignKey('module.id'))
+    module = db.relationship("Module", backref="interface_of_module")
     remarks = db.Column(db.String(255), nullable=True)
     create_time = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, name, module, remarks=None):
+    def __init__(self, name, module_id, remarks=None):
         self.name = name
-        self.module = module
+        self.module_id = module_id
         self.remarks = remarks
 
     def __str__(self):
         response = {
+            "id": self.id,
             "name": self.name,
             "module": self.module.__str__(),
             "remarks": self.remarks,
@@ -107,7 +113,8 @@ class Case(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    interface = db.Column(db.Integer, db.ForeignKey('interface.id'), )
+    interface_id = db.Column(db.Integer, db.ForeignKey('interface.id'))
+    interface = db.relationship("Interface", backref="case_of_interface")
     method = db.Column(db.Integer, nullable=True)
     params = db.Column(db.String(2000), nullable=True)
     url = db.Column(db.String(255), nullable=False)
@@ -118,13 +125,14 @@ class Case(db.Model):
     remarks = db.Column(db.String(255), nullable=True)
     create_time = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, name, interface, remarks=None):
+    def __init__(self, name, interface_id, remarks=None):
         self.name = name
-        self.interface = interface
+        self.interface_id = interface_id
         self.remarks = remarks
 
     def __str__(self):
         response = {
+            "id": self.id,
             "name": self.name,
             "interface": self.interface.__str__(),
             "remarks": self.remarks,

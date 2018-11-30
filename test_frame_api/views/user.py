@@ -32,8 +32,8 @@ def selectUserById():
         }
     return jsonify(response)
 
-@app.route('/user/selectAll', methods=['POST'])
-def selectAll():
+@app.route('/user/selectAllUser', methods=['POST'])
+def selectAllUser():
     token = Token.query.filter_by(token=request.form['token']).first()
     if token:
         if token.expire_time > datetime.datetime.now():

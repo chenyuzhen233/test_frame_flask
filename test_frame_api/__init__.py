@@ -8,5 +8,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
 
 
-from views import user
-from views import testcase
+from .views import user
+from .views import testcase
+from .views import project
+from .views import module
+from .views import interface
