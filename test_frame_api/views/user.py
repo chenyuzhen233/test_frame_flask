@@ -98,4 +98,9 @@ def deleteUserById():
 
 @app.errorhandler(404)
 def not_found(error):
-    return jsonify({'error': 'Not found'}), 404
+    response = {
+        "code": 99001,
+        "data": None,
+        "msg": result_code[99001]
+    }
+    return jsonify(response), 404

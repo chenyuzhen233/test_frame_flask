@@ -41,5 +41,6 @@ class UserTestCase(unittest.TestCase):
         response = self.app.post('/user/selectUserById', data=params)
         self.assertEqual(10001, response.json['code'])
 
+
 if __name__ == '__main__':
     unittest.main()

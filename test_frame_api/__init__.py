@@ -9,7 +9,7 @@ db.init_app(app)
 
 
 from .views import user
-from .views import testcase
+from .views import case
 from .views import project
 from .views import module
 from .views import interface

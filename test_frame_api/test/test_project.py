@@ -124,5 +124,6 @@ class ProjectTestCase(unittest.TestCase):
         response = self.app.post('/project/deleteProjectById', data=params)
         self.assertEqual(30003, response.json['code'])
 
+
 if __name__ == '__main__':
     unittest.main()

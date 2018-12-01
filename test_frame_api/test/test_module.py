@@ -127,5 +127,6 @@ class ModuleTestCase(unittest.TestCase):
         response = self.app.post('/module/deleteModuleById', data=params)
         self.assertEqual(40003, response.json['code'])
 
+
 if __name__ == '__main__':
     unittest.main()

@@ -113,8 +113,10 @@ class Case(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
+
     interface_id = db.Column(db.Integer, db.ForeignKey('interface.id'))
     interface = db.relationship("Interface", backref="case_of_interface")
+
     method = db.Column(db.Integer, nullable=True)
     params = db.Column(db.String(2000), nullable=True)
     url = db.Column(db.String(255), nullable=False)
@@ -125,9 +127,15 @@ class Case(db.Model):
     remarks = db.Column(db.String(255), nullable=True)
     create_time = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, name, interface_id, remarks=None):
+    def __init__(self, name, interface_id, method, params, url, relation, relation_params, save_params, remarks=None):
         self.name = name
         self.interface_id = interface_id
+        self.method = method,
+        self.params = params,
+        self.url = url,
+        self.relation = relation,
+        self.relation_params = relation_params,
+        self.save_params = save_params,
         self.remarks = remarks
 
     def __str__(self):
@@ -135,6 +143,12 @@ class Case(db.Model):
             "id": self.id,
             "name": self.name,
             "interface": self.interface.__str__(),
+            "method": self.method,
+            "params": self.params,
+            "url": self.url,
+            "relation": self.relation,
+            "relation_params": self.relation_params,
+            "save_params": self.save_params,
             "remarks": self.remarks,
             "create_time": self.create_time
         }

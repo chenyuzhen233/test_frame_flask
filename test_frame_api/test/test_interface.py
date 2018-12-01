@@ -99,7 +99,7 @@ class InterfaceTestCase(unittest.TestCase):
         response = self.app.post('/interface/insertInterface', data=params)
         self.assertEqual(50002, response.json['code'])
 
-    def test02_post_deleteModuleById_01(self):
+    def test02_post_deleteInterfaceById_01(self):
         params = {
             "id": InterfaceTestCase.interface_id
         }
@@ -126,6 +126,7 @@ class InterfaceTestCase(unittest.TestCase):
         }
         response = self.app.post('/interface/deleteInterfaceById', data=params)
         self.assertEqual(50003, response.json['code'])
+
 
 if __name__ == '__main__':
     unittest.main()
