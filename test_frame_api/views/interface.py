@@ -52,7 +52,8 @@ def selectAllInterface():
 def insertInterface():
     interface = Interface(name=request.form.get('name', None),
                           module_id=request.form.get('module_id', None),
-                          remarks=request.form.get('remarks', None))
+                          remarks=request.form.get('remarks', None),
+                          create_time=datetime.datetime.today())
     try:
         if not interface.name:
             raise BaseException

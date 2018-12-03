@@ -60,7 +60,8 @@ def insertCase():
                 relation=request.form.get('relation', None),
                 relation_params=request.form.get('relation_params', None),
                 save_params=request.form.get('save_params', None),
-                remarks=request.form.get('remarks', None))
+                remarks=request.form.get('remarks', None),
+                create_time=datetime.datetime.today())
     try:
         if not case.name:
             raise BaseException

@@ -60,7 +60,8 @@ def selectAllUser():
 @app.route('/user/insertUser', methods=['POST'])
 def insertUser():
     user = User(name=request.form.get('name', None),
-                password=request.form.get('password', None))
+                password=request.form.get('password', None),
+                create_time=datetime.datetime.today())
     try:
         if not user.name:
             raise BaseException

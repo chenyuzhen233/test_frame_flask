@@ -3,6 +3,7 @@ import test_frame_api
 import unittest
 import tempfile
 
+
 class LoginTestCase(unittest.TestCase):
     def setUp(self):
         self.db_fd, test_frame_api.app.config['DATABASE'] = tempfile.mkstemp()

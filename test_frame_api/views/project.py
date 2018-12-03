@@ -51,7 +51,8 @@ def selectAllProject():
 @app.route('/project/insertProject', methods=['POST'])
 def insertProject():
     project = Project(name=request.form.get('name', None),
-                      remarks=request.form.get('remarks', None))
+                      remarks=request.form.get('remarks', None),
+                      create_time=datetime.datetime.today())
     try:
         if not project.name:
             raise BaseException

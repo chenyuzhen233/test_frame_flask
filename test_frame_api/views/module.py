@@ -52,7 +52,8 @@ def selectAllModule():
 def insertModule():
     module = Module(name=request.form.get('name', None),
                     project_id=request.form.get('project_id', None),
-                    remarks=request.form.get('remarks', None))
+                    remarks=request.form.get('remarks', None),
+                    create_time=datetime.datetime.today())
     try:
         if not module.name:
             raise BaseException

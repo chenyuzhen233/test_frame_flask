@@ -9,25 +9,29 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(20), nullable=False)
+    create_time = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, name, password):
+    def __init__(self, name, password, create_time):
         self.name = name
         self.password = password
+        self.create_time = create_time
 
     def __str__(self):
         response = {
-            "id":self.id,
-            "name":self.name,
-            "password":self.password
+            "id": self.id,
+            "name": self.name,
+            "password": self.password,
+            "create_time": self.create_time
         }
         return response
+
 
 class Token(db.Model):
     # table name
     __tablename__ = "token"
     # table structure
     id = db.Column(db.Integer, primary_key = True)
-    token = db.Column(db.String(10), nullable=False)
+    token = db.Column(db.String(255), nullable=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship("User", backref="token_of_user")
@@ -60,9 +64,10 @@ class Project(db.Model):
     remarks = db.Column(db.String(255), nullable=True)
     create_time = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, name, remarks=None):
+    def __init__(self, name, create_time, remarks=None):
         self.name = name
         self.remarks = remarks
+        self.create_time = create_time
 
     def __str__(self):
         response = {
@@ -85,10 +90,11 @@ class Module(db.Model):
     remarks = db.Column(db.String(255), nullable=True)
     create_time = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, name, project_id, remarks=None):
+    def __init__(self, name, project_id, create_time, remarks=None):
         self.name = name
         self.project_id = project_id
         self.remarks = remarks
+        self.create_time = create_time
 
     def __str__(self):
         response = {
@@ -110,10 +116,11 @@ class Interface(db.Model):
     remarks = db.Column(db.String(255), nullable=True)
     create_time = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, name, module_id, remarks=None):
+    def __init__(self, name, module_id, create_time, remarks=None):
         self.name = name
         self.module_id = module_id
         self.remarks = remarks
+        self.create_time = create_time
 
     def __str__(self):
         response = {
@@ -144,7 +151,8 @@ class Case(db.Model):
     remarks = db.Column(db.String(255), nullable=True)
     create_time = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, name, interface_id, method, params, url, relation, relation_params, save_params, remarks=None):
+    def __init__(self, name, interface_id, method, params, url, relation,
+                 relation_params, save_params, create_time, remarks=None):
         self.name = name
         self.interface_id = interface_id
         self.method = method,
@@ -154,6 +162,7 @@ class Case(db.Model):
         self.relation_params = relation_params,
         self.save_params = save_params,
         self.remarks = remarks
+        self.create_time = create_time
 
     def __str__(self):
         response = {

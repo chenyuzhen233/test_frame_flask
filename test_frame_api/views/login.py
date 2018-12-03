@@ -15,7 +15,6 @@ def login():
                       user_id=user.id,
                       create_time=datetime.datetime.today(),
                       expire_time=datetime.datetime.today() + datetime.timedelta(days=7))
-        print(datetime.date.today())
         db.session.add(token)
         db.session.commit()
         response = {
