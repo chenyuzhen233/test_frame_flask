@@ -17,7 +17,8 @@ class User(db.Model):
     def __str__(self):
         response = {
             "id":self.id,
-            "name":self.name
+            "name":self.name,
+            "password":self.password
         }
         return response
 
@@ -27,12 +28,28 @@ class Token(db.Model):
     # table structure
     id = db.Column(db.Integer, primary_key = True)
     token = db.Column(db.String(10), nullable=False)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship("User", backref="token_of_user")
+
     create_time = db.Column(db.DateTime, nullable=False)
     expire_time = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, token, expire_time):
+    def __init__(self, token, user_id, create_time, expire_time):
         self.token = token
+        self.user_id = user_id
+        self.create_time = create_time
         self.expire_time = expire_time
+
+    def __str__(self):
+        response = {
+            "id": self.id,
+            "user_id": self.user_id,
+            "token": self.token,
+            "create_time": self.create_time,
+            "expire_time": self.expire_time
+        }
+        return response
 
 
 class Project(db.Model):
@@ -49,10 +66,10 @@ class Project(db.Model):
 
     def __str__(self):
         response = {
-            "id":self.id,
-            "name":self.name,
-            "remarks":self.remarks,
-            "create_time":self.create_time
+            "id": self.id,
+            "name": self.name,
+            "remarks": self.remarks,
+            "create_time": self.create_time
         }
         return response
 

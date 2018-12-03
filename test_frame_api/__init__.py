@@ -13,3 +13,4 @@ from .views import case
 from .views import project
 from .views import module
 from .views import interface
+from .views import login

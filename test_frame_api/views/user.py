@@ -34,7 +34,7 @@ def selectUserById():
 
 @app.route('/user/selectAllUser', methods=['POST'])
 def selectAllUser():
-    token = Token.query.filter_by(token=request.form['token']).first()
+    token = Token.query.filter_by(token=request.form.get('token', None)).first()
     if token:
         if token.expire_time > datetime.datetime.now():
             users = [u.__str__() for u in User.query.all()]
@@ -62,6 +62,8 @@ def insertUser():
     user = User(name=request.form.get('name', None),
                 password=request.form.get('password', None))
     try:
+        if not user.name:
+            raise BaseException
         db.session.add(user)
         db.session.commit()
         response = {
@@ -79,8 +81,10 @@ def insertUser():
 
 @app.route('/user/deleteUserById', methods=['POST'])
 def deleteUserById():
-    user = User.query.filter_by(id=request.form.get('id', 0)).first()
+    user = User.query.filter_by(id=request.form.get('id', None)).first()
     try:
+        if not user.id:
+            raise BaseException
         db.session.delete(user)
         db.session.commit()
         response = {
