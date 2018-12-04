@@ -1,6 +1,6 @@
 from test_frame_api import db, app
-from models import User, Token
-from response import result_code
+from ..models import User, Token
+from ..response import result_code
 from flask import jsonify, abort, request
 
 import datetime

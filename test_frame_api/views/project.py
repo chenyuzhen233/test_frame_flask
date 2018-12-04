@@ -1,6 +1,6 @@
 from test_frame_api import db, app
-from models import Project, Token
-from response import result_code
+from ..models import Project, Token
+from ..response import result_code
 from flask import jsonify, request
 
 import datetime

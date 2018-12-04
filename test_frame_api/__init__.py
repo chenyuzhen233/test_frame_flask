@@ -1,5 +1,5 @@
 from flask import Flask, request
-from models import db,User,Token
+from .models import db,User,Token
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://test:a123456@localhost:3306/test_robot"

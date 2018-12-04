@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 class User(db.Model):
     # table name
     __tablename__ = "user"
@@ -106,6 +107,7 @@ class Module(db.Model):
         }
         return response
 
+
 class Interface(db.Model):
     __tablename__ = "interface"
 
@@ -131,6 +133,7 @@ class Interface(db.Model):
             "create_time": self.create_time
         }
         return response
+
 
 class Case(db.Model):
     __tablename__ = "case"
