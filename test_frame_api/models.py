@@ -144,7 +144,8 @@ class Case(db.Model):
     interface_id = db.Column(db.Integer, db.ForeignKey('interface.id'))
     interface = db.relationship("Interface", backref="case_of_interface")
 
-    method = db.Column(db.Integer, nullable=True)
+    status = db.Column(db.Integer, nullable=False)
+    method = db.Column(db.Integer, nullable=False)
     params = db.Column(db.String(2000), nullable=True)
     url = db.Column(db.String(255), nullable=False)
     relation = db.Column(db.Integer, nullable=False)
@@ -152,12 +153,13 @@ class Case(db.Model):
     save_params = db.Column(db.String(2000), nullable=True)
 
     remarks = db.Column(db.String(255), nullable=True)
-    create_time = db.Column(db.DateTime, nullable=False)
+    create_time = db.Column(db.DateTime, nullable=True)
 
     def __init__(self, name, interface_id, method, params, url, relation,
-                 relation_params, save_params, create_time, remarks=None):
+                 relation_params, save_params, create_time, status, remarks=None):
         self.name = name
         self.interface_id = interface_id
+        self.status = status
         self.method = method,
         self.params = params,
         self.url = url,
@@ -172,6 +174,7 @@ class Case(db.Model):
             "id": self.id,
             "name": self.name,
             "interface": self.interface.__str__(),
+            "status": self.status,
             "method": self.method,
             "params": self.params,
             "url": self.url,
@@ -179,6 +182,54 @@ class Case(db.Model):
             "relation_params": self.relation_params,
             "save_params": self.save_params,
             "remarks": self.remarks,
+            "create_time": self.create_time
+        }
+        return response
+
+
+class Task(db.Model):
+    __tablename__ = "task"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship("User", backref="task_of_user")
+
+    case_id = db.Column(db.String(20000), nullable=False)
+    interface_id = db.Column(db.String(255), nullable=True)
+    project_id = db.Column(db.String(255), nullable=True)
+
+    status = db.Column(db.Integer, nullable=False)
+    host = db.Column(db.String(255), nullable=False)
+    remarks = db.Column(db.String(255), nullable=True)
+    start_time = db.Column(db.DateTime, nullable=False)
+    create_time = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, name, user_id, status, case_id, host, start_time, create_time, remarks, interface_id, project_id):
+        self.name = name
+        self.user_id = user_id
+        self.status = status
+        self.case_id = case_id
+        self.interface_id = interface_id
+        self.project_id = project_id
+        self.host = host
+        self.remarks = remarks
+        self.start_time = start_time
+        self.create_time = create_time
+
+    def __str__(self):
+        response = {
+            "id": self.id,
+            "name": self.name,
+            "user_id": self.user_id,
+            "status": self.status,
+            "case_id": self.case_id,
+            "interface_id": self.interface_id,
+            "project_id": self.project_id,
+            "host": self.host,
+            "remarks": self.remarks,
+            "start_time": self.start_time,
             "create_time": self.create_time
         }
         return response

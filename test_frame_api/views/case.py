@@ -29,7 +29,7 @@ def selectAllCase():
     token = Token.query.filter_by(token=request.form.get('token', None)).first()
     if token:
         if token.expire_time > datetime.datetime.now():
-            case = [i.__str__() for i in Case.query.all()]
+            case = [c.__str__() for c in Case.query.all()]
             response = {
                 "code": 00000,
                 "data": case,
@@ -54,6 +54,7 @@ def selectAllCase():
 def insertCase():
     case = Case(name=request.form.get('name', None),
                 interface_id=request.form.get('interface_id', None),
+                status=request.form.get('status', 1),
                 method=request.form.get('method', None),
                 params=request.form.get('params', None),
                 url=request.form.get('url', None),
