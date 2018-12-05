@@ -58,7 +58,7 @@ class CaseTestCase(unittest.TestCase):
         response = self.app.post('/case/selectAllCase', data=params)
         self.assertEqual(20001, response.json['code'])
 
-    def test_post_selectAllInterface_03(self):
+    def test_post_selectAllTask_03(self):
         params = {
             "token": ""
         }
