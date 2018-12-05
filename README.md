@@ -19,3 +19,33 @@
 - 输出测试报告
 - 邮件发送测试报告
 
+### 单元测试
+```powershell
+coverage run --source=test_frame_api -m test
+coverage report -m
+```
+
+```powershell
+Name                                    Stmts   Miss  Cover   Missing
+---------------------------------------------------------------------
+test_frame_api\__init__.py                 12      0   100%
+test_frame_api\common\__init__.py           0      0   100%
+test_frame_api\models.py                  104      3    97%   16-18
+test_frame_api\response.py                  1      0   100%
+test_frame_api\test\__init__.py             0      0   100%
+test_frame_api\test\test_case.py           75      1    99%   151
+test_frame_api\test\test_interface.py      75      1    99%   132
+test_frame_api\test\test_login.py          46      1    98%   79
+test_frame_api\test\test_module.py         75      1    99%   132
+test_frame_api\test\test_project.py        75      1    99%   129
+test_frame_api\test\test_user.py           30      1    97%   46
+test_frame_api\views\__init__.py            0      0   100%
+test_frame_api\views\case.py               40      0   100%
+test_frame_api\views\interface.py          40      0   100%
+test_frame_api\views\login.py              25      0   100%
+test_frame_api\views\module.py             40      0   100%
+test_frame_api\views\project.py            40      0   100%
+test_frame_api\views\user.py               48     32    33%   11-16, 37-58, 62-81, 85-102, 106-111
+---------------------------------------------------------------------
+TOTAL                                     726     41    94%
+```
