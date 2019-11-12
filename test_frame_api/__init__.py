@@ -1,6 +1,6 @@
 from flask import Flask, request
 from .models import db
-from utils.config import config
+from .utils.config import config
 
 host = config.get("database", "host")
 port = config.get("database", "port")
